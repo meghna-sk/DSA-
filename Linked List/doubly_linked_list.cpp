@@ -39,28 +39,42 @@ void delete_node(int value)
   node* temp=head;
   node* temp2=head;
   temp=temp->next;
-  while(temp->next!=NULL)
+
+  if(temp2->data==value)
   {
-    if (temp->data!=value)
-    {
-      temp=temp->next;
-      temp2=temp2->next;
-    }
-    else
-      break;
+    head=temp;
+    temp2->next=NULL;
+    temp2->prev=NULL;
+    free(temp2);
   }
-  temp2->next=temp->next;
-  temp->next->prev=temp2;
-  temp->next=temp->prev=NULL;
-  free(temp);
+  else
+  {
+    while(temp->next!=NULL)
+    {
+      if(temp->data!=value)
+      {
+        temp=temp->next;
+        temp2=temp2->next;
+      }
+      else
+        break;
+    }
+    temp2->next=temp->next;
+    if(temp->next!=NULL)
+      temp->next->prev=temp2;
+    temp->next=temp->prev=NULL;
+    free(temp);
+  }
+
 }
+
 void display()
 { node* temp=head;
   while(temp!=NULL)
   {
     cout<<temp->data<<endl;
     temp=temp->next;
-  }
+  }   
 }
 
 int main()
